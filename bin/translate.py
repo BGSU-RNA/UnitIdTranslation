@@ -11,10 +11,10 @@ def parse_cif(cif_file):
       ('atom_site', 'pdbx_PDB_model_num'),
       ('atom_site', 'auth_asym_id'),
       ('atom_site', 'label_comp_id'),
-      ('atom_site', 'auth_seq_id')
+      ('atom_site', 'auth_seq_id'),
       # ('atom_site', 'label_atom_id'),
-      # ('atom_site', 'label_alt_id'),
-      # ('atom_site', 'pdbx_PDB_ins_code', '')
+      ('atom_site', 'label_alt_id', ''),
+      ('atom_site', 'pdbx_PDB_ins_code', '')
     ]
     ids = []
     for name in blocks:
@@ -27,7 +27,7 @@ def parse_cif(cif_file):
             for index, value in enumerate(data):
                 if len(ids) <= index:
                     ids.append([name])
-                if value == '?':
+                if value == '?' or value == '.':
                     if len(part) > 2:
                         value = part[2]
                     else:
@@ -37,7 +37,10 @@ def parse_cif(cif_file):
         for unit_id in ids:
             unit_id.append(operator)
     ids = ['_'.join(unit_id) for unit_id in ids]
-    return ids
+    # ids.sort()
+    # print(len(ids))
+    # print(len(set(ids)))
+    return set(ids)
 
 
 

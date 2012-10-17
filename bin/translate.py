@@ -144,7 +144,7 @@ def get_id_correspondences(pdb_file, cif_file):
     correspondences = []
     for index, old_id in enumerate(old_ids):
         correspondences.append((as_old_id(old_id), as_new_id(new_ids[index])))
-    return correpondecies
+    return correspondences
 
 
 def main(cif_file):

@@ -17,7 +17,7 @@ from pprint import pprint
 NEW_FIELDS = ['pdb', 'model', 'chain', 'unit', 'number', 'atom_name', 'alt_id',
               'insertion', 'operator']
 
-OLD_FIELDS = ['pdb', 'type', 'model', 'chain', 'unit', 'number', 'insertion']
+OLD_FIELDS = ['pdb', 'type', 'model', 'chain', 'number', 'unit', 'insertion']
 
 
 def table(block, name):
@@ -122,7 +122,13 @@ def old_residue_ids(raw, filename):
 
 
 def as_new_id(new_id):
-    return '_'.join([new_id.get(part, '') for part in NEW_FIELDS])
+    fields = NEW_FIELDS
+    if not new_id.get('operator', None) or new_id['operator'] == '1_555':
+        fields = fields[:-1]
+        if not new_id.get('insertion', None):
+            fields = fields[:-3]
+
+    return '_'.join([new_id.get(part, '') for part in fields])
 
 
 def as_old_id(old_id):

@@ -39,7 +39,7 @@ OLD = [
         'chain': 'A',
         'number': '2',
         'unit': 'C',
-        'insertion': ''
+        'insertion': 'a'
     },
 ]
 
@@ -75,7 +75,7 @@ NEW = [
         'chain': 'A',
         'number': '2',
         'unit': 'C',
-        'insertion': '',
+        'insertion': 'a',
         'operator': '6_555'
     },
 ]
@@ -121,3 +121,15 @@ class TestTranslate(unittest.TestCase):
         }
         val = translate(OLD, table)
         self.assertEqual(val, NEW)
+
+    def test_new_id_string(self):
+        val = [as_new_id(data) for data in NEW]
+        ans = ['2AW7_1_A_A_1', '2AW7_1_A_C_2', '1D4R_1_A_A_3', 
+               '1D4R_2_A_C_2___a_6_555']
+        self.assertEqual(val, ans)
+
+    def test_old_id_string(self):
+        val = [as_old_id(data) for data in OLD]
+        ans = ['2AW7_AU_1_A_1_A_', '2AW7_AU_1_A_2_C_', '1D4R_BA1_1_A_3_A_',
+               '1D4R_BA2_2_A_2_C_a']
+        self.assertEqual(val, ans)

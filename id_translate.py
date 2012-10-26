@@ -21,7 +21,6 @@ OLD_FIELDS = ['pdb', 'type', 'model', 'chain', 'number', 'unit', 'insertion']
 def table(block, name):
     entries = {}
     for row in rows(block, name):
-        print(row)
         entries[row['id']] = row
     return entries
 

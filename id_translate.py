@@ -5,7 +5,7 @@ import csv
 import sys
 from collections import defaultdict
 
-from CorePyWrap import ParseCif
+from pdbx.reader.PdbxParser import PdbxReader
 
 from Bio.PDB.PDBParser import PDBParser
 
@@ -19,23 +19,19 @@ OLD_FIELDS = ['pdb', 'type', 'model', 'chain', 'number', 'unit', 'insertion']
 
 
 def table(block, name):
-    table = block.GetTable(name)
     entries = {}
-    for row in rows(table):
+    for row in rows(block, name):
+        print(row)
         entries[row['id']] = row
     return entries
 
 
-def row(table, index):
-    columns = table.GetColumnNames()
-    return dict(zip(columns, table.GetRow(index)))
-
-
-def rows(table):
-    columns = table.GetColumnNames()
-    for index in range(table.GetNumRows()):
-        data = dict(zip(columns, table.GetRow(index)))
-        yield data
+def rows(block, name):
+    entry = block.getObj(name)
+    columns = entry.getItemNameList()
+    columns = [column.replace('_' + name + '.', '') for column in columns]
+    for index in range(entry.getRowCount()):
+        yield dict(zip(columns, entry.getRow(index)))
 
 
 def build_translation_table(filename):
@@ -43,22 +39,25 @@ def build_translation_table(filename):
     usable by translate
     """
     translation_table = {}
-    parser = ParseCif(filename)
+    data = []
+    with open(filename, 'r') as raw:
+        parser = PdbxReader(raw)
+        parser = parser.read(data)
+    pdb = data[0]
+    pdb_id = pdb.getName()
 
-    for pdb_id in parser.GetBlockNames():
-        translation_table[pdb_id] = {}
-        pdb = parser.GetBlock(pdb_id)
-        gen_assemblies = pdb.GetTable('pdbx_struct_assembly_gen')
-        operator_table = table(pdb, 'pdbx_struct_oper_list')
+    translation_table[pdb_id] = {}
+    # pdb = parser.GetBlock(pdb_id)
+    operator_table = table(pdb, 'pdbx_struct_oper_list')
 
-        for gen_row in rows(gen_assemblies):
-            assembly_id = gen_row['assembly_id']
-            translation_table[pdb_id][assembly_id] = {}
-            models = gen_row['oper_expression'].split(',')
+    for gen_row in rows(pdb, 'pdbx_struct_assembly_gen'):
+        assembly_id = gen_row['assembly_id']
+        translation_table[pdb_id][assembly_id] = {}
+        models = gen_row['oper_expression'].split(',')
 
-            for model in models:
-                name = operator_table[model]['name']
-                translation_table[pdb_id][assembly_id][model] = name
+        for model in models:
+            name = operator_table[model]['name']
+            translation_table[pdb_id][assembly_id][model] = name
     return translation_table
 
 

@@ -147,5 +147,4 @@ class Test3D2S(unittest.TestCase):
                 '4': { '2': '1_555' },
             }
         }
-        print(val)
         self.assertEqual(val, ans)

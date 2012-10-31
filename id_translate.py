@@ -20,6 +20,10 @@ NEW_FIELDS = ['pdb', 'model', 'chain', 'unit', 'number', 'alt_id', 'insertion',
 OLD_FIELDS = ['pdb', 'type', 'model', 'chain', 'number', 'unit', 'insertion']
 
 
+class LooksLikeAVirusStructureError(Exception):
+    pass
+
+
 def table(block, name):
     entries = {}
     for row in rows(block, name):
@@ -55,6 +59,9 @@ def build_translation_table(filename):
 
         if not translation_table[pdb_id].get(assembly_id):
             translation_table[pdb_id][assembly_id] = {}
+
+        if '(' in gen_row['oper_expression']:
+            raise LooksLikeAVirusStructureError(filename)
 
         models = gen_row['oper_expression'].split(',')
         for model in models:

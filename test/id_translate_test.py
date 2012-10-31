@@ -172,3 +172,9 @@ class Test3QSU(unittest.TestCase):
             }
         }
         self.assertEqual(val, ans)
+
+
+class Test1AQ4(unittest.TestCase):
+    def test_fails_translation_table(self):
+        func = lambda: build_translation_table('test/files/1AQ4.cif')
+        self.assertRaises(LooksLikeAVirusStructureError, func)

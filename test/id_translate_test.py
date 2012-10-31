@@ -148,3 +148,13 @@ class Test3D2S(unittest.TestCase):
             }
         }
         self.assertEqual(val, ans)
+
+class Test3DSU(unittest.TestCase):
+    def test_build_translation_table(self):
+        val = build_translation_table('test/files/3DSU.cif')
+        ans = {
+            '3DSU': {
+                '1': { '1': '1_555' }
+            }
+        }
+        self.assertEqual(val, ans)

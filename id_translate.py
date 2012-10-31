@@ -48,7 +48,6 @@ def build_translation_table(filename):
     pdb_id = pdb.getName()
 
     translation_table[pdb_id] = {}
-    # pdb = parser.GetBlock(pdb_id)
     operator_table = table(pdb, 'pdbx_struct_oper_list')
 
     for gen_row in rows(pdb, 'pdbx_struct_assembly_gen'):

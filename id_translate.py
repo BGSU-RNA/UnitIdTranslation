@@ -52,12 +52,15 @@ def build_translation_table(filename):
 
     for gen_row in rows(pdb, 'pdbx_struct_assembly_gen'):
         assembly_id = gen_row['assembly_id']
-        translation_table[pdb_id][assembly_id] = {}
-        models = gen_row['oper_expression'].split(',')
 
+        if not translation_table[pdb_id].get(assembly_id):
+            translation_table[pdb_id][assembly_id] = {}
+
+        models = gen_row['oper_expression'].split(',')
         for model in models:
             name = operator_table[model]['name']
             translation_table[pdb_id][assembly_id][model] = name
+
     return translation_table
 
 

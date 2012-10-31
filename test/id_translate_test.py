@@ -134,3 +134,18 @@ class TestTranslate(unittest.TestCase):
         ans = ['2AW7_AU_1_A_1_A_', '2AW7_AU_1_A_2_C_', '1D4R_BA1_1_A_3_A_',
                '1D4R_BA2_2_A_2_C_a']
         self.assertEqual(val, ans)
+
+
+class Test3D2S(unittest.TestCase):
+    def test_build_translation_table(self):
+        val = build_translation_table('test/files/3D2S.cif')
+        ans = {
+            '3D2S': {
+                '1': { '1': '2_645', '2': '1_555', '3': '1_554', },
+                '2': { '2': '1_555' },
+                '3': { '2': '1_555', '3': '1_554', '4': '2_545', },
+                '4': { '2': '1_555' },
+            }
+        }
+        print(val)
+        self.assertEqual(val, ans)

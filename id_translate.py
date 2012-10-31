@@ -102,16 +102,15 @@ def old_residue_ids(raw, filename):
             chain_id = chain.get_id()
             for residue in chain:
                 res_id = residue.get_id()
-                if residue.has_id("C1'"):
-                    data.append({
-                        'pdb': pdb_id,
-                        'type': pdb_type,
-                        'model': model_id,
-                        'chain': chain_id,
-                        'number': str(res_id[1]),
-                        'unit': residue.resname.strip(),
-                        'insertion': res_id[2].rstrip()
-                    })
+                data.append({
+                    'pdb': pdb_id,
+                    'type': pdb_type,
+                    'model': model_id,
+                    'chain': chain_id,
+                    'number': str(res_id[1]),
+                    'unit': residue.resname.strip(),
+                    'insertion': res_id[2].rstrip()
+                })
 
     return data
 

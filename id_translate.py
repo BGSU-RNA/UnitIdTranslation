@@ -19,6 +19,8 @@ NEW_FIELDS = ['pdb', 'model', 'chain', 'unit', 'number', 'alt_id', 'insertion',
 
 OLD_FIELDS = ['pdb', 'type', 'model', 'chain', 'number', 'unit', 'insertion']
 
+NEW_SEPARATOR = '_'
+
 
 class LooksLikeAVirusStructureError(Exception):
     pass
@@ -141,7 +143,7 @@ def as_new_id(new_id):
         if not new_id.get('insertion', None):
             fields = fields[:-2]
 
-    return '_'.join([new_id.get(part, '') for part in fields])
+    return NEW_SEPARATOR.join([new_id.get(part, '') for part in fields])
 
 
 def as_old_id(old_id):

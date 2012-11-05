@@ -178,3 +178,15 @@ class Test1AQ4(unittest.TestCase):
     def test_fails_translation_table(self):
         func = lambda: build_translation_table('test/files/1AQ4.cif')
         self.assertRaises(LooksLikeAVirusStructureError, func)
+
+
+class Test2Z4L(unittest.TestCase):
+    # In this case the method uses nested default dicts so that all access to
+    # the table produce '1_555'. I don't test that it uses a defaultdict
+    # directly since this is likely to change in the future.
+    def test_builds_table_with_missing_assembly(self):
+        val = build_translation_table('test/files/2Z4L.cif')
+        self.assertEquals(val['1']['1'], '1_555')
+        self.assertEquals(val['3']['1'], '1_555')
+        self.assertEquals(val['1']['10'], '1_555')
+

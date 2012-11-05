@@ -33,6 +33,8 @@ def table(block, name):
 
 def rows(block, name):
     entry = block.getObj(name)
+    if not entry:
+        raise StopIteration()
     columns = entry.getItemNameList()
     columns = [column.replace('_' + name + '.', '') for column in columns]
     for index in range(entry.getRowCount()):
@@ -53,6 +55,12 @@ def build_translation_table(filename):
 
     translation_table[pdb_id] = {}
     operator_table = table(pdb, 'pdbx_struct_oper_list')
+
+    # If there is no assembly gen then the whole AU is in one file. Here there
+    # are no biological assemblies but I don't know how many models there are,
+    # so we return a defaultdict which will always return '1_555'.
+    if not pdb.getObj('pdbx_struct_assembly_gen'):
+        return defaultdict(lambda: defaultdict(lambda: '1_555'))
 
     for gen_row in rows(pdb, 'pdbx_struct_assembly_gen'):
         assembly_id = gen_row['assembly_id']

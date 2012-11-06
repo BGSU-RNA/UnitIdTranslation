@@ -67,18 +67,17 @@ def build_translation_table(filename):
     pdb = data[0]
     pdb_id = pdb.getName()
 
-    translation_table[pdb_id] = {}
-    operator_table = table(pdb, 'pdbx_struct_oper_list')
-
     # If there is no assembly gen then the whole AU is in one file. Here there
     # are no biological assemblies but I don't know how many models there are,
     # so we return a defaultdict which will always return '1_555'.
     if not pdb.getObj('pdbx_struct_assembly_gen'):
         return defaultdict(lambda: defaultdict(lambda: '1_555'))
 
+    operator_table = table(pdb, 'pdbx_struct_oper_list')
     if not operator_table:
         raise MissingOperatorTableError(filename)
 
+    translation_table[pdb_id] = {}
     for gen_row in rows(pdb, 'pdbx_struct_assembly_gen'):
         assembly_id = gen_row['assembly_id']
 

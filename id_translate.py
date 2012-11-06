@@ -27,6 +27,10 @@ class LooksLikeAVirusStructureError(Exception):
     pass
 
 
+class MissingOperatorTableError(Exception):
+    pass
+
+
 def table(block, name):
     entries = {}
     for row in rows(block, name):
@@ -64,6 +68,9 @@ def build_translation_table(filename):
     # so we return a defaultdict which will always return '1_555'.
     if not pdb.getObj('pdbx_struct_assembly_gen'):
         return defaultdict(lambda: defaultdict(lambda: '1_555'))
+
+    if not operator_table:
+        raise MissingOperatorTableError(filename)
 
     for gen_row in rows(pdb, 'pdbx_struct_assembly_gen'):
         assembly_id = gen_row['assembly_id']

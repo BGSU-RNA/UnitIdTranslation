@@ -24,10 +24,17 @@ NEW_SEPARATOR = '_'
 
 
 class LooksLikeAVirusStructureError(Exception):
+    """This is raised if we detect a structure that looks like a viral
+    structure. We don't yet have a method for dealing with such structures so
+    we error out to indicate we can't handle it.
+    """
     pass
 
 
 class MissingOperatorTableError(Exception):
+    """This is raised if we can't load the operator table. We require such a
+    table so we have to die if we encounter such a situation.
+    """
     pass
 
 

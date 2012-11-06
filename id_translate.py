@@ -11,6 +11,7 @@ from Bio.PDB.PDBParser import PDBParser
 
 from pprint import pprint
 
+
 # NEW_FIELDS = ['pdb', 'model', 'chain', 'unit', 'number', 'atom_name', 'alt_id',
 #               'insertion', 'operator']
 

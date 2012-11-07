@@ -200,3 +200,11 @@ class Test2Z4L(unittest.TestCase):
             val = get_id_correspondences('test/files/2Z4L.pdb',
                                          'test/files/2Z4L.cif')
             self.assertEquals(val, val)
+
+    def test_does_not_crash_making_pdb_ids(self):
+        # BioPython spits out annoying warnings, so we silence them.
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            val = get_id_correspondences('test/files/2Z4L.pdb1',
+                                         'test/files/2Z4L.cif')
+            self.assertEquals(val, val)

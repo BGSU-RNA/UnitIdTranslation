@@ -5,7 +5,6 @@ import warnings
 from id_translate import *
 
 
-
 OLD = [
     {
         'pdb': '2AW7',

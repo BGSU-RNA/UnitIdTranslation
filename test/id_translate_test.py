@@ -1,5 +1,6 @@
 import sys
 import unittest
+import warnings
 
 from id_translate import *
 
@@ -186,7 +187,24 @@ class Test2Z4L(unittest.TestCase):
     # directly since this is likely to change in the future.
     def test_builds_table_with_missing_assembly(self):
         val = build_translation_table('test/files/2Z4L.cif')
-        self.assertEquals(val['1']['1'], '1_555')
-        self.assertEquals(val['3']['1'], '1_555')
-        self.assertEquals(val['1']['10'], '1_555')
+        self.assertEquals(val['2Z4L']['1']['1'], '1_555')
+        self.assertEquals(val['2Z4L']['3']['1'], '1_555')
+        self.assertEquals(val['2Z4L']['1']['10'], '1_555')
 
+    # Smoke test to see if this will crash when generating IDs. It was having
+    # trouble before so I'm adding a silly test for it.
+    def test_does_not_crash_making_pdb_ids(self):
+        # BioPython spits out annoying warnings, so we silence them.
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            val = get_id_correspondences('test/files/2Z4L.pdb',
+                                         'test/files/2Z4L.cif')
+            self.assertEquals(val, val)
+
+    def test_does_not_crash_making_pdb_ids(self):
+        # BioPython spits out annoying warnings, so we silence them.
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            val = get_id_correspondences('test/files/2Z4L.pdb1',
+                                         'test/files/2Z4L.cif')
+            self.assertEquals(val, val)

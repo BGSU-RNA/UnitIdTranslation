@@ -187,9 +187,9 @@ class Test2Z4L(unittest.TestCase):
     # directly since this is likely to change in the future.
     def test_builds_table_with_missing_assembly(self):
         val = build_translation_table('test/files/2Z4L.cif')
-        self.assertEquals(val['1']['1'], '1_555')
-        self.assertEquals(val['3']['1'], '1_555')
-        self.assertEquals(val['1']['10'], '1_555')
+        self.assertEquals(val['2Z4L']['1']['1'], '1_555')
+        self.assertEquals(val['2Z4L']['3']['1'], '1_555')
+        self.assertEquals(val['2Z4L']['1']['10'], '1_555')
 
     # Smoke test to see if this will crash when generating IDs. It was having
     # trouble before so I'm adding a silly test for it.

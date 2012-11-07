@@ -71,7 +71,7 @@ def build_translation_table(filename):
     # are no biological assemblies but I don't know how many models there are,
     # so we return a defaultdict which will always return '1_555'.
     if not pdb.getObj('pdbx_struct_assembly_gen'):
-        return defaultdict(lambda: defaultdict(lambda: '1_555'))
+        return {pdb_id: defaultdict(lambda: defaultdict(lambda: '1_555'))}
 
     operator_table = table(pdb, 'pdbx_struct_oper_list')
     if not operator_table:
@@ -106,6 +106,7 @@ def load_translation_table(raw):
 
 def translate(old_ids, table):
     new = []
+    print(table)
     for oid in old_ids:
         nid = dict(oid)
         ntype = nid['type']

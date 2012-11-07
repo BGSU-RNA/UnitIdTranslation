@@ -63,7 +63,7 @@ def build_translation_table(filename):
     data = []
     with open(filename, 'r') as raw:
         parser = PdbxReader(raw)
-        parser = parser.read(data)
+        parser.read(data)
     pdb = data[0]
     pdb_id = pdb.getName()
 

@@ -38,6 +38,11 @@ class MissingOperatorTableError(Exception):
     pass
 
 
+class DefaultUsingKey(defaultdict):
+    def __missing__(self, key):
+        return self.default_factory(key)
+
+
 def table(block, name):
     entries = {}
     for row in rows(block, name):
@@ -84,8 +89,10 @@ def build_translation_table(filename):
         if not translation_table[pdb_id].get(assembly_id):
             translation_table[pdb_id][assembly_id] = {}
 
+        # Here I am assumming that the AU is always 1_555.
         if '(' in gen_row['oper_expression']:
-            raise LooksLikeAVirusStructureError(filename)
+            model_builder = DefaultUsingKey(lambda k: 'P_%s' % k)
+            return {pdb_id: defaultdict(lambda: model_builder)}
 
         models = gen_row['oper_expression'].split(',')
         for model in models:

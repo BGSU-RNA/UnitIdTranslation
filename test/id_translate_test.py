@@ -177,8 +177,10 @@ class Test3QSU(unittest.TestCase):
 
 class Test1AQ4(unittest.TestCase):
     def test_fails_translation_table(self):
-        func = lambda: build_translation_table('test/files/1AQ4.cif')
-        self.assertRaises(LooksLikeAVirusStructureError, func)
+        val = build_translation_table('test/files/1AQ4.cif')
+        self.assertEqual(val['1AQ4']['1']['1'], 'P_1')
+        self.assertEqual(val['1AQ4']['5']['10'], 'P_10')
+        self.assertEqual(val['1AQ4']['3']['2'], 'P_2')
 
 
 class Test2Z4L(unittest.TestCase):

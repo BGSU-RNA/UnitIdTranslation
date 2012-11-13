@@ -113,7 +113,6 @@ def load_translation_table(raw):
 
 def translate(old_ids, table):
     new = []
-    print(table)
     for oid in old_ids:
         nid = dict(oid)
         ntype = nid['type']

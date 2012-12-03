@@ -12,15 +12,12 @@ from Bio.PDB.PDBParser import PDBParser
 from pprint import pprint
 
 
-# NEW_FIELDS = ['pdb', 'model', 'chain', 'unit', 'number', 'atom_name', 'alt_id',
-#               'insertion', 'operator']
-
-NEW_FIELDS = ['pdb', 'model', 'chain', 'unit', 'number', 'alt_id', 'insertion',
-              'operator']
+NEW_FIELDS = ['pdb', 'model', 'chain', 'unit', 'number', 'atom_name', 'alt_id',
+              'insertion', 'operator']
 
 OLD_FIELDS = ['pdb', 'type', 'model', 'chain', 'number', 'unit', 'insertion']
 
-NEW_SEPARATOR = '_'
+NEW_SEPARATOR = '|'
 
 
 class LooksLikeAVirusStructureError(Exception):
@@ -162,7 +159,7 @@ def as_new_id(new_id):
     if not new_id.get('operator', None) or new_id['operator'] == '1_555':
         fields = fields[:-1]
         if not new_id.get('insertion', None):
-            fields = fields[:-2]
+            fields = fields[:-3]
 
     return NEW_SEPARATOR.join([new_id.get(part, '') for part in fields])
 

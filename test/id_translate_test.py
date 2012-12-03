@@ -126,8 +126,8 @@ class TestTranslate(unittest.TestCase):
 
     def test_new_id_string(self):
         val = [as_new_id(data) for data in NEW]
-        ans = ['2AW7_1_A_A_1', '2AW7_1_A_C_2', '1D4R_1_A_A_3',
-               '1D4R_2_A_C_2__a_6_555']
+        ans = ['2AW7|1|A|A|1', '2AW7|1|A|C|2', '1D4R|1|A|A|3',
+               '1D4R|2|A|C|2|||a|6_555']
         self.assertEqual(val, ans)
 
     def test_old_id_string(self):
